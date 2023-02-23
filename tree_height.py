@@ -1,81 +1,43 @@
-# python3
-import os
 import sys
 import threading
 
-def input_read():
-    source = input().lower()
-    if source == 'i':
-        print("Enter nr. of nodes")
-        n = int(input())
-        print("Parents of nodes")
-        parents = list(map(int, input().split()))
-        return n, parents
-    elif source == 'f':
-        while True:
-            print("file name")
-            filename = input()
-            if 'a' in filename:
-                print("Cant contain 'a'")
-            elif not os.path.isfile('inputs/' + filename):
-                print("File not found")
-            else:
-                with open('inputs/' + filename, "r") as file:
-                    n = int(file.readlines().strip())
-                    parents = list(map(int, file.readline().strip().split()))
-                    return n, parents
-    else:
-        print("Invalid")
-        return input_read()
+def compute_height(n, parents):
+    # Initialize max height to 0 and height list to all zeros
+    max_height = 0
+    height_list = [0] * n
 
-def build_tree(n, parents):
-    # Initialize an empty adjacency list for each node
-    adj = [[] for _ in range(n)]
-
-    # Build the adjacency list
+    # Traverse the tree and compute height for each node
     for i in range(n):
-        if parents[i] == -1:
-            root = i
+        node_height = 1
+        j = parents[i]
+
+        # If parent has a computed height, use it to compute height of the current node
+        if j != -1 and height_list[j] != 0:
+            node_height = height_list[j] + 1
         else:
-            adj[parents[i]].append(i)
+            # Traverse ancestors of the current node to compute height
+            while j != -1 and height_list[j] == 0:
+                node_height += 1
+                j = parents[j]
+            if j != -1:
+                node_height += height_list[j]
 
-    return root, adj
+        # Update max height and height list for the current node
+        max_height = max(max_height, node_height)
+        height_list[i] = node_height
 
-print("Input")
-def height(root, adj):
-    if not adj[root]:
-        return 1
-    else:
-        max_child_height = 0
-        for child in adj[root]:
-            child_height = height(child, adj)
-            if child_height > max_child_height:
-                max_child_height = child_height
-        return max_child_height + 1
+    return max_height
 
+def main():
+    # Read input
+    n = int(input())
+    parents = list(map(int, input().split()))
 
-n = int(input())
-parents = list(map(int, input().split()))
+    # Compute and print max height
+    max_height = compute_height(n, parents)
+    print(max_height)
 
-root, adj = build_tree(n, parents)
-tree_height = height(root, adj)
-
-print("Output:")
-print(tree_height)
-
-    # implement input form keyboard and from files
-    
-    # let user input file name to use, don't allow file names with letter a
-    # account for github input inprecision
-    
-    # input number of elements
-    # input values in one variable, separate with space, split these values in an array
-    # call the function and output it's result
-
-
-# In Python, the default limit on recursion depth is rather low,
-# so raise it here for this problem. Note that to take advantage
-# of bigger stack, we have to launch the computation in a new thread.
-sys.setrecursionlimit(10**7)  # max depth of recursion
-threading.stack_size(2**27)   # new thread will get stack of such size
-threading.Thread(target=height).start()
+# Increase recursion limit and stack size for large test cases
+sys.setrecursionlimit(10**7)
+threading.stack_size(2**27)
+threading.Thread(target=main).start()
