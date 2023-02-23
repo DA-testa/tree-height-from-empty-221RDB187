@@ -33,14 +33,18 @@ def main():
     input_type = input("F or I")
     if input_type == 'F':
         file_name = input("Enter the file name: ")
+        if 'a' in file_name:
+            return
         with open(file_name, mode="r") as f:
             n = int(f.readline().strip())
             arr = list(map(int, f.readline().strip().split()))
             print(compute_height(n, arr))
-    else:
+    elif input_type == 'I':
         n = int(input("Enter the number of nodes: ").strip())
-        arr = list(map(int, input("Enter the parent of each node separated by space: ").strip().split()))
+        arr = [int(i) for i in input().split(' ')]
         print(compute_height(n, arr))
+    else:
+        return
 
 # In Python, the default limit on recursion depth is rather low,
 # so raise it here for this problem. Note that to take advantage
