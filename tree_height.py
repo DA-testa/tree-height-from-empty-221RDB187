@@ -1,43 +1,50 @@
 import sys
 import threading
 
+
 def compute_height(n, parents):
-    # Initialize max height to 0 and height list to all zeros
     max_height = 0
-    height_list = [0] * n
-
-    # Traverse the tree and compute height for each node
-    for i in range(n):
-        node_height = 1
-        j = parents[i]
-
-        # If parent has a computed height, use it to compute height of the current node
-        if j != -1 and height_list[j] != 0:
-            node_height = height_list[j] + 1
-        else:
-            # Traverse ancestors of the current node to compute height
-            while j != -1 and height_list[j] == 0:
-                node_height += 1
-                j = parents[j]
-            if j != -1:
-                node_height += height_list[j]
-
-        # Update max height and height list for the current node
-        max_height = max(max_height, node_height)
-        height_list[i] = node_height
-
+    heightList = [0] * n
+    for x in range(n):
+        height = 1
+        i = parents[x]
+        if i != -1 and heightList[i]!=0:
+            heightList[x] = heightList[i]+1
+            if max_height < heightList[x]: max_height = heightList[x]
+            continue
+        while i != -1:
+            i = parents[i]
+            height += 1
+            if i != -1 and heightList[i]!=0:
+                height = height + heightList[i]
+                break
+        if max_height < height: max_height = height
+        heightList[x] = height
+        i = parents[x]
+        while i != -1:
+            if i != -1 and heightList[i]!=0:
+                break
+            height -= 1
+            heightList[i] = height
+            i = parents[i]
     return max_height
 
 def main():
-    # Read input
-    n = int(input())
-    parents = list(map(int, input().split()))
+    input_type = input("Enter 'F' to input from file or 'I' to input from keyboard: ")
+    if input_type == 'F':
+        file_name = input("Enter the file name: ")
+        with open(file_name, mode="r") as f:
+            n = int(f.readline().strip())
+            arr = list(map(int, f.readline().strip().split()))
+            print(compute_height(n, arr))
+    else:
+        n = int(input("Enter the number of nodes: ").strip())
+        arr = list(map(int, input("Enter the parent of each node separated by space: ").strip().split()))
+        print(compute_height(n, arr))
 
-    # Compute and print max height
-    max_height = compute_height(n, parents)
-    print(max_height)
-
-# Increase recursion limit and stack size for large test cases
-sys.setrecursionlimit(10**7)
-threading.stack_size(2**27)
+# In Python, the default limit on recursion depth is rather low,
+# so raise it here for this problem. Note that to take advantage
+# of bigger stack, we have to launch the computation in a new thread.
+sys.setrecursionlimit(10**7)  # max depth of recursion
+threading.stack_size(2**27)   # new thread will get stack of such size
 threading.Thread(target=main).start()
