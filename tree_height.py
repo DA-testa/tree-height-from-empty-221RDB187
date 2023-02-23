@@ -39,7 +39,7 @@ def main():
             n = int(f.readline().strip())
             arr = list(map(int, f.readline().strip().split()))
             print(compute_height(n, arr))
-    elif input_type == 'F':
+    else:
         n = int(input("Enter the number of nodes: ").strip())
         arr = list(map(int, input("Enter the parent of each node separated by space: ").strip().split()))
         print(compute_height(n, arr))
