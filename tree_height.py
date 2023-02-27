@@ -25,15 +25,15 @@ def main():
     if "F" in input_type:
         file_name = input("Input the file name")
         if "a" in file_name:
-                return
+            return
         if "test/" not in file_name:
             file_name = "test/" + file_name
         if "test/" in file_name:
             with open(file_name) as f:
                 lines = f.readlines()
                 n = int(lines[0])
-                parents = list(map(int, lines[1].split()))
-                height = compute_height(n, parents)               
+                arr = list(map(int, lines[1].split()))
+                height = compute_height(n, arr)  
     elif  "I" in input_type:
         n = int(input())
         parents = list(map(int, input().split()))
