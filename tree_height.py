@@ -5,6 +5,7 @@ import threading
 def compute_height(n, parents):
     max_height = 0
     heightList = [0] * n
+    height = 0
     for x in range(n):
         height = 1
         i = parents[x]
