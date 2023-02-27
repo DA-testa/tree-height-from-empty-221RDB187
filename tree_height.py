@@ -35,14 +35,19 @@ def main():
         file_name = input("Enter the file name: ")
         if 'a' in file_name:
             return
-        with open("./test/" + input().replace('\r',''), mode="r") as f:
-            n = int(f.readline().strip())
-            arr = list(map(int, f.readline().strip().split()))
-            print(compute_height(n, arr))
-    else:
-        n = int(input("Enter the number of nodes: ").strip())
-        arr = list(map(int, input("Enter the parent of each node separated by space: ").strip().split()))
-        print(compute_height(n, arr))
+        if "/test" not in file_name:
+            file_name = "test/" + file_name
+        with open(file_name) as f:
+            lines = f.readlines()
+            n = int(lines[0])
+            arr = list(map(int, lines[1].split()))
+            height = compute_height(n, arr)  
+    elif  "I" in input_type:
+        n = int(input())
+        parents = list(map(int, input().split()))
+        height = compute_height(n, parents)
+
+    print(height)
 
 
 # In Python, the default limit on recursion depth is rather low,
