@@ -23,8 +23,8 @@ def compute_height(n, parents):
 def main():
     input_type = input("F or I")
     if "F" in input_type:
-        file_name = input()
-        if ".a" in file_name:
+        file_name = input("Input the file name")
+        if "a" in file_name:
                 return
         if "test/" not in file_name:
             file_name = "test/" + file_name
