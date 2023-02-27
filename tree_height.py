@@ -41,13 +41,13 @@ def main():
             lines = f.readlines()
             n = int(lines[0])
             arr = list(map(int, lines[1].split()))
-            height = compute_height(n, arr)  
+            max_height = compute_height(n, arr)  
     elif  "I" in input_type:
         n = int(input())
         parents = list(map(int, input().split()))
-        height = compute_height(n, parents)
+        max_height = compute_height(n, parents)
 
-    print(height)
+    print(max_height)
 
 
 # In Python, the default limit on recursion depth is rather low,
