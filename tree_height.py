@@ -36,19 +36,19 @@ def main():
         file_name = input("Enter the file name: ")
         if 'a' in file_name:
             return
-        if "/test" not in file_name:
+        if "test/" not in file_name:
             file_name = "test/" + file_name
         with open(file_name) as f:
             lines = f.readlines()
             n = int(lines[0])
             arr = list(map(int, lines[1].split()))
-            max_height = compute_height(n, arr)  
+            height = compute_height(n, arr)  
     elif  "I" in input_type:
         n = int(input())
         parents = list(map(int, input().split()))
-        max_height = compute_height(n, parents)
+        height = compute_height(n, parents)
 
-    print(max_height)
+    print(height)
 
 
 # In Python, the default limit on recursion depth is rather low,
