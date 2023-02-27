@@ -1,36 +1,27 @@
 import sys
 import threading
 
-
 def compute_height(n, parents):
+    def get_height(node):
+        if node in heights:
+            return heights[node]
+        if parents[node] == -1:
+            height = 1
+        else:
+            height = 1 + get_height(parents[node])
+        heights[node] = height
+        return height
+
     max_height = 0
-    heightList = [0] * n
-    for x in range(n):
-        height = 1
-        i = parents[x]
-        if i != -1 and heightList[i]!=0:
-            heightList[x] = heightList[i]+1
-            if max_height < heightList[x]: max_height = heightList[x]
-            continue
-        while i != -1:
-            i = parents[i]
-            height += 1
-            if i != -1 and heightList[i]!=0:
-                height = height + heightList[i]
-                break
-        if max_height < height: max_height = height
-        heightList[x] = height
-        i = parents[x]
-        while i != -1:
-            if i != -1 and heightList[i]!=0:
-                break
-            height -= 1
-            heightList[i] = height
-            i = parents[i]
+    heights = {}
+    for i in range(n):
+        height = get_height(i)
+        if height > max_height:
+            max_height = height
     return max_height
 
 def main():
-    input_type = input("F or I")
+    input_type = input("F or I") 
     if input_type == 'F':
         file_name = input("Enter the file name: ")
         if 'a' in file_name:
