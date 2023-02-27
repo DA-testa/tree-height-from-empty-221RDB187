@@ -5,7 +5,6 @@ import threading
 def compute_height(n, parents):
     max_height = 0
     heightList = [0] * n
-    height = 0
     for x in range(n):
         height = 1
         i = parents[x]
@@ -42,13 +41,13 @@ def main():
             lines = f.readlines()
             n = int(lines[0])
             arr = list(map(int, lines[1].split()))
-            height = compute_height(n, arr)  
+            height1 = compute_height(n, arr)  
     elif  "I" in input_type:
         n = int(input())
         parents = list(map(int, input().split()))
-        height = compute_height(n, parents)
+        height1 = compute_height(n, parents)
 
-    print(height)
+    print(height1)
 
 
 # In Python, the default limit on recursion depth is rather low,
