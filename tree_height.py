@@ -21,24 +21,25 @@ def compute_height(n, parents):
     return max_height
 
 def main():
-    input_type = input("F or I") 
-    if input_type == 'F':
-        file_name = input("Enter the file name: ")
-        if 'a' in file_name:
-            return
+    input_type = input("F or I")
+    if "F" in input_type:
+        file_name = input()
+        if ".a" in file_name:
+                return
         if "test/" not in file_name:
             file_name = "test/" + file_name
-        with open(file_name) as f:
-            lines = f.readlines()
-            n = int(lines[0])
-            arr = list(map(int, lines[1].split()))
-            height1 = compute_height(n, arr)  
+        if "test/" in file_name:
+            with open(file_name) as f:
+                lines = f.readlines()
+                n = int(lines[0])
+                parents = list(map(int, lines[1].split()))
+                height = compute_height(n, parents)               
     elif  "I" in input_type:
         n = int(input())
         parents = list(map(int, input().split()))
-        height1 = compute_height(n, parents)
+        height = compute_height(n, parents)
 
-    print(height1)
+    print(height)
 
 
 # In Python, the default limit on recursion depth is rather low,
